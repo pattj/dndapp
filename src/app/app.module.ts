@@ -2,13 +2,20 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
+import { CharacterModule } from './character/character.module';
+import { UserModule } from './user/user.module';
+import { SharedModule } from './shared/shared.module'
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+   // CharactersComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    CharacterModule,
+    UserModule,
+    SharedModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
