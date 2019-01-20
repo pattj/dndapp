@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Character } from '../character'
 import { ICharacter } from '../../shared/interfaces'
- 
+
+
 @Component({
   selector: 'app-characters-list',
   templateUrl: './characters-list.component.html',
@@ -35,6 +36,19 @@ export class CharactersListComponent implements OnInit {
 
   }
 
+  filter(data: string) {
+    if (data) {
+      this.Filtered_Characters = this.Characters.filter((char: Character) => {
+        return char.name.toLowerCase().indexOf(data.toLowerCase()) > -1 ||
+          char.toString().indexOf(data) > -1 ||
+          char.race.toLowerCase().indexOf(data.toLowerCase()) > -1;
+      });
+      console.log(this.Filtered_Characters);
+    } else {
+      this.Filtered_Characters = this.Characters;
+      console.log("test");
+    }
+  }
 
 
 }
