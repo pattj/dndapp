@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Character } from '../character';
-
-
+import { DataService } from '../../core/data.service'
+import { ICharacter } from '../../shared/interfaces'
 
 @Component({
   selector: 'app-characters',
@@ -13,23 +13,19 @@ export class CharactersComponent implements OnInit {
 
   title: string;
   character: Character;
-  Characters: Character[];
+  Characters: any[];
 
   ngOnInit() {
-
-    this.Characters = [
-      { id: 1, name: 'john Doe', race: 'Phoenix', },
-      { id: 2, name: 'Jane Doe', race: 'Chandler', },
-      { id: 3, name: 'Michelle Thomas', race: 'Seattle', },
-      { id: 4, name: 'Jim Thomas', race: 'New York', },
-
-    ];
+    this.title = "Characters";
+    this.dataService.getCharacters()
+      .subscribe((characters: ICharacter[]) => this.Characters = characters);
+    console.log(this.Characters);
   }
 
 
 
 
-  constructor() { }
+  constructor(private dataService: DataService) { }
 
 
 }

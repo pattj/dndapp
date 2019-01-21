@@ -1,14 +1,15 @@
+import { Character } from "../character/character";
+
 export interface ICharacter {
   id: number;
   name: string;
   race: string;
-  strength?: number;
-  createdSince: any;
+  
 }
 
 export interface IUser {
   UserId: number;
-  orderItems: IOrderItem[];
+  Characters: Character[];
 }
 
 export interface IOrderItem {
