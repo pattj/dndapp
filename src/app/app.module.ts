@@ -5,11 +5,13 @@ import { AppComponent } from './app.component';
 import { CharacterModule } from './character/character.module';
 import { UserModule } from './user/user.module';
 import { SharedModule } from './shared/shared.module'
-import { CoreModule } from './core/core.module'
+import { CoreModule } from './core/core.module';
+import { MonsterModule } from './monster/monster.module';
 
 @NgModule({
   declarations: [
     AppComponent,
+
    // CharactersComponent
   ],
   imports: [
@@ -17,7 +19,8 @@ import { CoreModule } from './core/core.module'
     CharacterModule,
     UserModule,
     SharedModule,
-    CoreModule
+    CoreModule,
+    MonsterModule
   ],
   providers: [],
   bootstrap: [AppComponent]
