@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Observable } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { Observable, empty } from 'rxjs';
+import { map, catchError, expand, tap, concatMap } from 'rxjs/operators';
 import { ICharacter } from '../shared/interfaces';
 import { IMonster } from '../shared/interfaces';
 
@@ -19,6 +19,7 @@ export class DataService {
   getCharacters(): Observable<ICharacter[]> {
     return this.http.get<ICharacter[]>('./assets/character.json')
       .pipe(
+
         catchError(this.handleError)
       );
   }
@@ -30,13 +31,19 @@ export class DataService {
       );
   }
 
-  getMonsters(): Observable<IMonster> {
-    return this.http.get<IMonster>('https://api-beta.open5e.com/monsters/').
+
+  getMonsters(pageNumber: Number): Observable<IMonster> {
+    return this.http.get<IMonster>(`https://api-beta.open5e.com/monsters/?page=${pageNumber}`).
       pipe(
-        catchError(this.handleError)
+        tap(res => console.log(res.next)),
+        catchError(this.handleError),
+        tap(res => console.log(res)),
+        expand(response => response.next ? this.http.get<IMonster>(response.next) : empty()),
+       //concatMap(response => response.results ? response.results : empty()),
       );
 
   }
+  
 
 
   private handleError(error: any) {
