@@ -1,9 +1,12 @@
+
 import { Component, OnInit } from '@angular/core';
 import { concatMap, expand } from "rxjs/operators";
-
+import { HttpClient, } from '@angular/common/http';
+import { Observable, empty, concat, } from 'rxjs';
 
 import { IMonster } from '../../shared/interfaces';
 import { DataService } from 'src/app/core/data.service';
+import { MonstersListComponent } from '../monsters-list/monsters-list.component';
 
 @Component({
   selector: 'app-monsters',
@@ -13,33 +16,36 @@ import { DataService } from 'src/app/core/data.service';
 export class MonstersComponent implements OnInit {
 
   title: string;
-  Response: any; //entire JSON body response from get call
-  Results: any; //maybe change the name to results instead and assign to api calls
+  Response: Array<any>; //entire JSON body response from get call
+  datas: any[] = []; //maybe change the name to results instead and assign to api calls
+   
   next: string;
   pageNumber: number;
  //  count : any;
-  constructor(private dataService: DataService) {
+  constructor(private dataService: DataService, private http: HttpClient) {
     this.pageNumber = 1;
+    
   }
 
   ngOnInit() {
     this.title = "Monsters";
-     
-    this.dataService.getMonsters(this.pageNumber)
+    
+    this.dataService.getMonsters(this.pageNumber).pipe(
+
+      expand(response => response.next ? this.http.get<IMonster>(response.next) : empty()),
+    )
       .subscribe((Results: IMonster) => {
-        this.Results = Results.results;
+        //this.datas[this.pageNumber] =Results.results;
+        this.datas = this.datas.concat(Results.results);
         this.next = Results.next;
-        this.pageNumber += 1;
+         this.pageNumber+=1;
+       console.log(this.datas);
        // this.count = Monsters;
       });
-    
+
+
+
   }
 
-  showMonsters() {
-    console.log(this.Results);
-    
-   // console.log(response.xhr.getResponseHeader("next"));
-  //  console.log(this.Page);
-   // console.log(this.count.count);
-  }
+ 
 }

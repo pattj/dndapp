@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, } from '@angular/common/http';
+ 
 
-import { Observable, empty } from 'rxjs';
-import { map, catchError, expand, tap, concatMap } from 'rxjs/operators';
+import { Observable, empty,  } from 'rxjs';
+import { map, catchError, expand, tap, concatMap, scan, reduce } from 'rxjs/operators';
 import { ICharacter } from '../shared/interfaces';
 import { IMonster } from '../shared/interfaces';
 
@@ -31,7 +32,8 @@ export class DataService {
       );
   }
 
-
+  /*
+  
   getMonsters(pageNumber: Number): Observable<IMonster> {
     return this.http.get<IMonster>(`https://api-beta.open5e.com/monsters/?page=${pageNumber}`).
       pipe(
@@ -39,12 +41,59 @@ export class DataService {
         catchError(this.handleError),
         tap(res => console.log(res)),
         expand(response => response.next ? this.http.get<IMonster>(response.next) : empty()),
-       //concatMap(response => response.results ? response.results : empty()),
+        concatMap()
+
+        
+     
+        
+      ) ;
+
+  }
+  */
+ 
+  /*
+  getMonsters(pageNumber: number): Observable<IMonster> {
+    return this.http.get<IMonster>(`https://api-beta.open5e.com/monsters/?page=${pageNumber}`).
+      pipe(
+        tap(res => console.log(res.next)),
+        catchError(this.handleError),
+        // tap(res => console.log(res)),
+        expand(response => response.next ? this.http.get<IMonster>(response.next) : empty()),
+        reduce((acc, data) => {
+          return acc.concat(data);
+      }, []),
+      concatMap((res) => {
+        console.log(res.length);
+        console.log(typeof (res));
+        return res;
+      }  
+
+      )
+        
+
+
+
+
+
       );
 
   }
-  
+  */
 
+  getMonsters(pageNumber: number): Observable<IMonster> {
+    return this.http.get<IMonster>(`https://api-beta.open5e.com/monsters/?page=${pageNumber}`).
+      pipe(
+        tap(res => console.log(res.next)),
+        catchError(this.handleError),
+        // tap(res => console.log(res)),
+
+
+      );
+
+  }
+
+
+ 
 
   private handleError(error: any) {
     console.error('server error:', error);
