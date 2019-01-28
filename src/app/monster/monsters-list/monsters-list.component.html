@@ -1,8 +1,13 @@
 <p>
-  <button (click)= "showMonsters($event)">show monsters</button>
+  Select Monster:
 
   <select (click)= "showMonsters($event.target.value)">>
     <option *ngFor="let monster of Monsters">{{monster.name}}</option>
   </select>
 
+</p>
+
+<p>
+
+  <app-monster-info [receivedMonster] ="selectedMonster"></app-monster-info>
 </p>

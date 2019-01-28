@@ -4,7 +4,7 @@ import { concatMap, expand } from "rxjs/operators";
 import { HttpClient, } from '@angular/common/http';
 import { Observable, empty, concat, } from 'rxjs';
 
-import { IMonster } from '../../shared/interfaces';
+import { IMonster, IMons } from '../../shared/interfaces';
 import { DataService } from 'src/app/core/data.service';
 import { MonstersListComponent } from '../monsters-list/monsters-list.component';
 
@@ -36,10 +36,11 @@ export class MonstersComponent implements OnInit {
     )
       .subscribe((Results: IMonster) => {
         //this.datas[this.pageNumber] =Results.results;
+
         this.datas = this.datas.concat(Results.results);
         this.next = Results.next;
          this.pageNumber+=1;
-       console.log(this.datas);
+      // console.log(this.datas);
        // this.count = Monsters;
       });
 

@@ -11,7 +11,7 @@ import { IMonster } from '../../shared/interfaces';
 export class MonstersListComponent implements OnInit {
 
   @Input() Monsters: any[] = [];
-  selectedMonster: any;
+  selectedMonster: Array<any>;
   constructor() { }
 
   ngOnInit() {
@@ -19,11 +19,9 @@ export class MonstersListComponent implements OnInit {
 
   showMonsters(monsterName: string) {
 
-
-    console.log(this.Monsters[10].name);
-
     this.selectedMonster = this.Monsters.filter((monsters: any) => monsters.name == monsterName);
-    console.log(this.selectedMonster);
+  
+  
     
   }
 
